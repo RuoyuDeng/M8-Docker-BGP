@@ -1,0 +1,27 @@
+#FROM arm64v8/maven:3.6-amazoncorretto-8 AS splendorbuild
+FROM maven:3.8.3-openjdk-11 AS splendorbuild
+MAINTAINER maximilian schiedermeier
+RUN mkdir -p /usr/src/app
+COPY f2022-hexanome-08/server/src /usr/src/app/src
+COPY f2022-hexanome-08/server/pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean package -P prod
+## Discard Maven, run JAR file using JRE
+#FROM openjdk:8-jre-alpine
+#FROM openjdk:16-jre-alpine
+FROM adoptopenjdk/openjdk11:latest
+
+## Wait for the LobbyService to be ready (which in its turn waits for the DB)
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
+# copy the jar from the build stage, expose the required port and run it.
+COPY --from=splendorbuild /usr/src/app/target/splendor.jar /usr/app/splendor.jar
+COPY f2022-hexanome-08/server/saved_games_meta.json /usr/app/saved_games_meta.json
+COPY f2022-hexanome-08/server/saved_games_data.json /usr/app/saved_games_data.json
+COPY f2022-hexanome-08/server/cardinfo_basecard.json /usr/app/cardinfo_basecard.json
+COPY f2022-hexanome-08/server/cardinfo_orientcard.json /usr/app/cardinfo_orientcard.json
+COPY f2022-hexanome-08/server/cardinfo_citycard.json /usr/app/cardinfo_citycard.json
+COPY f2022-hexanome-08/server/cardinfo_noblecard.json /usr/app/cardinfo_noblecard.json
+WORKDIR /usr/app
+EXPOSE 4246

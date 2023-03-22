@@ -1,0 +1,18 @@
+USE mysql;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+CREATE USER 'ls'@'172.%' IDENTIFIED BY 'phaibooth3sha6Hi';
+CREATE DATABASE ls;
+GRANT ALL PRIVILEGES ON ls.* TO 'ls'@'172.%';
+USE ls;
+CREATE TABLE player (name varchar(255) NOT NULL PRIMARY KEY, password varchar(255) NOT NULL, preferred_colour varchar(255) NOT NULL, role varchar(255) NOT NULL);
+INSERT INTO player VALUES ('ruoyu', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('julia', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('eden', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('young', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('pengyu', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('muzhi', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('raneem', '$2a$12$H4kY2m6c3L9qqm681wYWo.KO0AWTz18rf7UWjyL5VrJ/uBkD2jty2', 'FCBA03', 'ROLE_ADMIN');
+INSERT INTO player VALUES ('xox', '$2a$12$i9TOyr9T04CKaoff7Tt9vuoIeH0zmuKj7KQ1O22Uk.h47WruSoTf.', 'FFFFFF', 'ROLE_SERVICE');
+INSERT INTO player VALUES ('splendorBase', '$2a$12$i9TOyr9T04CKaoff7Tt9vuoIeH0zmuKj7KQ1O22Uk.h47WruSoTf.', 'FFFFFF', 'ROLE_SERVICE');
+INSERT INTO player VALUES ('splendorCity', '$2a$12$i9TOyr9T04CKaoff7Tt9vuoIeH0zmuKj7KQ1O22Uk.h47WruSoTf.', 'FFFFFF', 'ROLE_SERVICE');
+INSERT INTO player VALUES ('splendorTrade', '$2a$12$i9TOyr9T04CKaoff7Tt9vuoIeH0zmuKj7KQ1O22Uk.h47WruSoTf.', 'FFFFFF', 'ROLE_SERVICE');
