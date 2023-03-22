@@ -14,11 +14,11 @@ git branch
 git checkout main
 git pull
 
-# update Xox
+# update Splendor
 cd $BASE
-cd BgpXox
+cd f2022-hexanome-08
 git branch
-git checkout main
+git checkout splendor_M8_demo_v1
 git pull
 
 cd $BASE
