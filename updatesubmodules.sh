@@ -22,4 +22,5 @@ git checkout splendor_M8_demo_v1
 git pull
 
 cd $BASE
+cp ls-db-setup.sql LobbyService/
 
