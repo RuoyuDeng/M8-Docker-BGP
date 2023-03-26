@@ -18,7 +18,7 @@ git pull
 cd $BASE
 cd f2022-hexanome-08
 git branch
-git checkout splendor_M8_demo_v1
+git checkout master
 git pull
 
 cd $BASE
