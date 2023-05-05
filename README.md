@@ -1,85 +1,82 @@
-# Board Game Platform deployment configuration
+# COMP 361 Project
 
-Exemplary deployment configuration for a Lobby-Service based Board Game Platform.
+## What is this project?
+As a group of 7 people, we developed an online version of _Splendor_, a famous broad game. The backend server was implemented using Spring Boot framework, 
+and we used JavaFX as our frontend framework. 
+The game is deployed on a [lobby service](https://github.com/m5c/LobbyService), developed by the course instructor: [Maximilian Schiedermeier](https://github.com/m5c).
 
-## About
-
-The content of this repository provides a sample deployment configuration for a generic Board Game Platform, based on the Lobby Service. It is implemented as a Micro-Service web application that consists of the following modules:
-
- * [LobbyService](https://github.com/kartoffelquadrat/LobbyService): A SpringBoot/Java RESTful service for *user*-, *game*- and *session*-management.
-   * Contains [LobbyServiceWebUI](https://github.com/kartoffelquadrat/LobbyServiceWebInterface): A sample HTML/JS web frontend for the LobbyService.
- * [Database](https://github.com/kartoffelquadrat/LobbyService/blob/master/Dockerfile-ls-db): A MySQL database used by the LobbyService for data persistence.
- * [Xox](https://github.com/kartoffelquadrat/BgpXox): A minimal Lobby-Service compliant demo game. (*Tic Tac Toe*, written as a SpringBoot/Java RESTful service with built in HTML/JS web frontend.)
-
- > Note: With exception to the Database, all services communicate *exclusively* over REST interfaces.
-
-Purpose of this repository is to provide a reusable, easy-to-install platform that illustrates Lobby-Service features.
-
-### Docker Compose
-
-The service interplay configuration for this Board Game Platform uses Docker-Compose.  
-  
- - Docker is a virtualization technology that allows a convenient deployment (installation) of services, independent of the host OS. Docker deploys individual services (the modules listed above) as containers. 
- - The Docker-Compose configuration of this repository orchestrates module containers (correct startup sequence, network wiring).
-
- > Note: You can use this docker-compose configuration on any system, no matter if a personal laptop or a headless server.
-
-The following files are used for deployment:
-
- * [```docker-compose.yml```](docker-compose.yml): Docker-Compose file to orchestrate the startup sequence and network wiring of containered platform modules:
-   * [```Dockerfile-bgp-db```](Dockerfile-bgp-db): Container build instructions for the Database module.
-   * [```Dockerfile-bgp-ls```](Dockerfile-bgp-ls): Container build instructions for the [Lobby-Service](https://github.com/kartoffelquadrat/LobbyService) module.
-   * [```Dockerfile-bgp-xox```](Dockerfile-bgp-xox): Container build instructions for the [*Tic Tac Toe* sample game](https://github.com/kartoffelquadrat/BgpXox) module.
-
+## How to run everything by yourself (server and client)
 ### Prerequisites
+1. Make sure you have [maven](https://maven.apache.org/download.cgi) installed on your machine. It is required to run
+the client.
+2. Download and install [docker desktop](https://www.docker.com/) so that you can run the server and database in some isolated containers.
+3. Due to copy right issue, we can not upload the game assets of the original game in this repository, thus you must download it
+from [here](https://drive.google.com/drive/folders/1_qFamQnAU4fEEZqE0P-e6zrqeNkG2nRD). Download the folder `pictures` and
+store it somewhere on your machine. We will put it in the right place afterwards.
 
-#### Docker-Compose
+### Server
+Let's start with the setting up the servers and database using `docker`:
 
-Depending on your host-os, install docker-compose with one of the links below:
-   * Mac OS / Windows: [Docker Desktop (docker-compose and GUI-tools)](https://www.docker.com/products/docker-desktop)
-     * Windows: Additionally follow the [official instructions to install the linux kernel](https://docs.microsoft.com/en-us/windows/wsl/install-win10#manual-installation-steps).
-   * Prod Systems / Linux: [Docker Compose (just docker-compose)](https://docs.docker.com/compose/install/)
+#### docker compose up
+Follow the steps by typing the command into your `terminal` (`cmd` if you are using windows)
+1. git clone this [repository](https://github.com/RuoyuDeng/M8-Docker-BGP.git) by typing: `git clone https://github.com/RuoyuDeng/M8-Docker-BGP.git`
+2. Then you cd into the directory: `cd M8-Docker-BGP`
+3. Run the update submodules script
+   1. For mac/linux, type: `./updatesubmodules.sh`
+   2. For windows, you can first open the folder in explorer, and then right-click on the file `updatesubmodules.ps1`,
+   in the prompt, click `run with powershell`.
+4. After that, type: `docker compose up`
+   > make sure you have docker desktop up and running before typing this
+5. Wait for around 2-3 minutes (max), then you should have the `Lobby Server` and `Game Server` both running on your machine.
+#### Alternative Approach after docker compose up (for developer)
+After you have build the `docker images`, you can choose to run the `database` inside the container and the `Lobby Service` and `Game Server`
+outside of the container. This approach is usually taken when you feel like customizing and modifying the game server or lobby server by yourself frequently 
+during game play (not recommended for gamers).
+1. Make sure you have the container `BGP-Database` created from previous `docker compose up` running. You can do so through the dashboard of the docker desktop application. 
+2. `cd M8-Docker-BGP/LobbyService`, and then type: `mvn clean spring-boot:run`
+3. Go back to the root folder: `M8-Docker-BGP`, then type: `cd f2022-hexanome-08/server`. Start the server by typing: `mvn clean spring-boot:run`
+4. Despite several more steps, you have achieved the same goal as above approach.
 
-#### Code
+Now, you should have the backend servers ready, let's see how to run the client.
+### Client
+We have not yet configured a way to package our frontend code to a `jar` file so that
+it can be played cross-platform by simply double-clicking on one file. So the only way to
+run the client (frontend) is use mvn: `mvn clean javafx:run`. Note that according to how the server is deployed, you might need to change the client
+configuration a bit.
+1. Remember the `pictures` folder that you downloaded as part of the prerequisite? Now let's put it in the right place, which is under:
+   `M8-Docker-BGP/f2022-hexanome-08/client/src/main/resources/project/pictures`
+2. Now depending on how you started your server and how exactly you want to play this game, there is some configuration details you need to do. If you want to:
+   1. Play with your friends under a same WI-FI:
+      1. Find the json configuration file: `M8-Docker-BGP/f2022-hexanome-08/client/connectionConfig.json`, the default content is:
+      ```
+      {
+      "defaultUserName": "ruoyu", 
+      "defaultPassword": "abc123_ABC123", 
+      "useDefaultUserInfo": "true",
+      "hostIp": "76.66.139.161",
+      "useLocalHost": "false"
+      }
+      ```
+   2. Change the value of `hostIp` to the IP of which your machine that runs the servers.
+      > For mac user, you can do so by `ipconfig getifaddr en0` in your terminal. For example, you got 10.111.111.111 as your IP, then you need to change this configuration file in all the client applications: `"hostIp": "10.111.111.111"`,
+   2. Play with your friends under different WI-FI:
+      1. [Port-forwarding](https://www.hellotech.com/guide/for/how-to-port-forward#:~:text=To%20forward%20ports%20on%20your%20router%2C%20log%20into%20your%20router,you%20might%20have%20to%20upgrade.) your local host so that you can play the game with your friends under different WI-FI.
+      2. Say the IP you got after port-forwarding is: `http://33.23.123.456/`, then similarly, you will need to replace `hostIp` to `"33.23.123.456"`, which is your own server IP after port-forwarding.
+3. Now you have configured the client IP correctly, we are just one command line away from playing! Now type: `cd M8-Docker-BGP/f2022-hexanome-08/client` 
+4. Lastly, type: `mvn clean javafx:run`, and you should be able to see the game running!
 
- * Clone this repository:  
-```git clone https://github.com/kartoffelquadrat/BoardGamePlatform.git```
+### I just want to play the game (client)
+You could've skipped all the steps mentioned above if you just want to play some game ASAP. Follow the steps below:
+1. Remember the `pictures` folder that you downloaded as part of the prerequisite? Now let's put it in the right place, which is under:
+`M8-Docker-BGP/f2022-hexanome-08/client/src/main/resources/project/pictures`
+2. Open your terminal or cmd, type: `cd M8-Docker-BGP/f2022-hexanome-08/client`
+3. Then, type: `mvn clean javafx:run` to start the game!
 
- * *Recursively* pull, and re-attach all subrepositories:
 
-   * Mac / Linux:  
-```./updatesubmodules.sh```  
-   * Windows:  
-```.\updatesubmodules.ps1```
+### Lastly, Log-in Account Management
+As you have noticed, we have provided you a default admin account to start the game with. For the very first time that you log in, you can use this account to add more accounts as you go.
+Afterwards, you can change `"defaultUserName"` and `"defaultPassword"` to your own account information. The flag value: `"useDefaultUserInfo": "true"` enables that your password and username
+being pre-filled for you (save some time) when you log in. If you do not like this feature, then you can simply change it to "false": `"useDefaultUserInfo": "false"`
 
-### Deployment
 
- * If you're on a Mac with M1 chip, set these environment variables:  
-```
-export DOCKER_BUILDKIT=0
-export COMPOSE_DOCKER_CLI_BUILD=0
-```
- * Power up the platform:  
-```docker-compose up```  
-(use ```docker-compose up --build``` to force rebuild)
-
- * Test the platform:
-    * Visit the [WebUI](http://127.0.0.1:4242/)
-    * login with default admin credentials: ```maex```, ```abc123_ABC123```
-      * Click "Admin Zone", create new users (use *user* or *admin* as account type, do **not** use *service*)
-    * Click "Logout". Then login with standard (non admin users) in two browsers
-    * create a Tic Tac Toe session on browser 1
-    * join the Tic Tac Toe session on browser 2
-    * *Launch* the session on browser 1
-    * *Play!* on both browsers.
-
- > The BGP services can also be installed manually (without docker). See the instruction in the individual module repositories.
-
-## Contact / Pull Requests
-
-Contact information for bug reports and pull requests:
-
- * Author: Maximilian Schiedermeier ![email](email.png)
- * Github: [Kartoffelquadrat](https://github.com/kartoffelquadrat)
- * Webpage: [McGill University, School of Computer Science](https://www.cs.mcgill.ca/~mschie3)
- * License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+**_Congrats! You have finished all the steps you needed to play the game (a bit long, I admit). Now it's time to gather some friends around, and start playing!_**
