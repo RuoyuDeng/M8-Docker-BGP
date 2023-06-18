@@ -19,8 +19,8 @@ Let's start with the setting up the servers and database using `docker`:
 
 #### docker compose up
 Follow the steps by typing the command into your `terminal` (`cmd` if you are using windows)
-1. git clone this [repository](https://github.com/RuoyuDeng/M8-Docker-BGP.git) by typing: `git clone https://github.com/RuoyuDeng/M8-Docker-BGP.git`
-2. Then you cd into the directory: `cd M8-Docker-BGP`
+1. git clone this [repository](https://github.com/RuoyuDeng/Splendor.git) by typing: `git clone https://github.com/RuoyuDeng/Splendor.git`
+2. Then you cd into the directory: `cd Splendor`
 3. Run the update submodules script
    1. For mac/linux, type: `./updatesubmodules.sh`
    2. For windows, you can first open the folder in explorer, and then right-click on the file `updatesubmodules.ps1`,
@@ -33,8 +33,8 @@ After you have build the `docker images`, you can choose to run the `database` i
 outside of the container. This approach is usually taken when you feel like customizing and modifying the game server or lobby server by yourself frequently 
 during game play (not recommended for gamers).
 1. Make sure you have the container `BGP-Database` created from previous `docker compose up` running. You can do so through the dashboard of the docker desktop application. 
-2. `cd M8-Docker-BGP/LobbyService`, and then type: `mvn clean spring-boot:run`
-3. Go back to the root folder: `M8-Docker-BGP`, then type: `cd f2022-hexanome-08/server`. Start the server by typing: `mvn clean spring-boot:run`
+2. `cd Splendor/LobbyService`, and then type: `mvn clean spring-boot:run`
+3. Go back to the root folder: `Splendor`, then type: `cd f2022-hexanome-08/server`. Start the server by typing: `mvn clean spring-boot:run`
 4. Despite several more steps, you have achieved the same goal as above approach.
 
 Now, you should have the backend servers ready, let's see how to run the client.
@@ -44,10 +44,10 @@ it can be played cross-platform by simply double-clicking on one file. So the on
 run the client (frontend) is use mvn: `mvn clean javafx:run`. Note that according to how the server is deployed, you might need to change the client
 configuration a bit.
 1. Remember the `pictures` folder that you downloaded as part of the prerequisite? Now let's put it in the right place, which is under:
-   `M8-Docker-BGP/f2022-hexanome-08/client/src/main/resources/project/pictures`
+   `Splendor/f2022-hexanome-08/client/src/main/resources/project/pictures`
 2. Now depending on how you started your server and how exactly you want to play this game, there is some configuration details you need to do. If you want to:
    1. Play with your friends under a same WI-FI:
-      1. Find the json configuration file: `M8-Docker-BGP/f2022-hexanome-08/client/connectionConfig.json`, the default content is:
+      1. Find the json configuration file: `Splendor/f2022-hexanome-08/client/connectionConfig.json`, the default content is:
       ```
       {
       "defaultUserName": "ruoyu", 
@@ -62,14 +62,14 @@ configuration a bit.
    2. Play with your friends under different WI-FI:
       1. [Port-forwarding](https://www.hellotech.com/guide/for/how-to-port-forward#:~:text=To%20forward%20ports%20on%20your%20router%2C%20log%20into%20your%20router,you%20might%20have%20to%20upgrade.) your local host so that you can play the game with your friends under different WI-FI.
       2. Say the IP you got after port-forwarding is: `http://33.23.123.456/`, then similarly, you will need to replace `hostIp` to `"33.23.123.456"`, which is your own server IP after port-forwarding.
-3. Now you have configured the client IP correctly, we are just one command line away from playing! Now type: `cd M8-Docker-BGP/f2022-hexanome-08/client` 
+3. Now you have configured the client IP correctly, we are just one command line away from playing! Now type: `cd Splendor/f2022-hexanome-08/client` 
 4. Lastly, type: `mvn clean javafx:run`, and you should be able to see the game running!
 
 ### I just want to play the game (client)
 You could've skipped all the steps mentioned above if you just want to play some game ASAP. Follow the steps below:
 1. Remember the `pictures` folder that you downloaded as part of the prerequisite? Now let's put it in the right place, which is under:
-`M8-Docker-BGP/f2022-hexanome-08/client/src/main/resources/project/pictures`
-2. Open your terminal or cmd, type: `cd M8-Docker-BGP/f2022-hexanome-08/client`
+`Splendor/f2022-hexanome-08/client/src/main/resources/project/pictures`
+2. Open your terminal or cmd, type: `cd Splendor/f2022-hexanome-08/client`
 3. Then, type: `mvn clean javafx:run` to start the game!
 
 
