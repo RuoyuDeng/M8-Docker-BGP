@@ -3,4 +3,4 @@
 	url = https://github.com/COMP361/f2022-hexanome-08.git
 [submodule "LobbyService"]
 	path = LobbyService
-	url = https://github.com/m5c/LobbyService.git
+	url = https://github.com/RuoyuDeng/LobbyService.git
