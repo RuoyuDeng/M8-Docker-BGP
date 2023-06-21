@@ -17,11 +17,6 @@ RUN chmod +x /wait
 
 # copy the jar from the build stage, expose the required port and run it.
 COPY --from=splendorbuild /usr/src/app/target/splendor.jar /usr/app/splendor.jar
-COPY f2022-hexanome-08/server/saved_games_meta.json /usr/app/saved_games_meta.json
-COPY f2022-hexanome-08/server/saved_games_data.json /usr/app/saved_games_data.json
-COPY f2022-hexanome-08/server/cardinfo_basecard.json /usr/app/cardinfo_basecard.json
-COPY f2022-hexanome-08/server/cardinfo_orientcard.json /usr/app/cardinfo_orientcard.json
-COPY f2022-hexanome-08/server/cardinfo_citycard.json /usr/app/cardinfo_citycard.json
-COPY f2022-hexanome-08/server/cardinfo_noblecard.json /usr/app/cardinfo_noblecard.json
+COPY f2022-hexanome-08/server/*.json /usr/app
 WORKDIR /usr/app
 EXPOSE 4246
